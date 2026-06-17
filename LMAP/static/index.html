@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>大模型聚合平台</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">AI</div>
+          <div>
+            <strong>大模型聚合平台</strong>
+            <span>OpenAI 兼容网关</span>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" aria-label="主导航">
+          <button class="active" data-view="chat">对话</button>
+          <button data-view="models">模型配置</button>
+          <button data-view="prompts">Prompt</button>
+          <button data-view="billing">计费看板</button>
+          <button data-view="history">历史</button>
+        </nav>
+
+        <section class="mini-panel account-panel">
+          <label>当前用户</label>
+          <strong id="userName">-</strong>
+          <span class="muted" id="userId">-</span>
+          <button id="logout" type="button">退出登录</button>
+        </section>
+
+        <section class="mini-panel quota-panel">
+          <div class="panel-title">额度</div>
+          <div class="quota-bar"><span id="quotaBar"></span></div>
+          <div class="muted" id="quotaText">-</div>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <section class="topbar">
+          <div>
+            <p class="eyebrow">Gateway / Adapter / Billing</p>
+            <h1 id="viewTitle">对话界面</h1>
+          </div>
+          <div class="status-strip">
+            <span id="providerStatus">供应商：-</span>
+            <span id="requestStatus">就绪</span>
+          </div>
+        </section>
+
+        <section id="chatView" class="view active">
+          <div class="chat-layout">
+            <section class="conversation">
+              <div id="messages" class="messages"></div>
+              <form id="chatForm" class="composer">
+                <div class="chat-controls">
+                  <select id="providerSelect"></select>
+                  <select id="modelSelect"></select>
+                  <select id="promptSelect">
+                    <option value="">不使用模板</option>
+                  </select>
+                </div>
+                <textarea id="messageInput" rows="4" placeholder="输入你的问题，平台会通过统一接口路由到对应模型"></textarea>
+                <div class="composer-actions">
+                  <button type="button" id="clearChat">清空</button>
+                  <button type="submit" class="primary">发送</button>
+                </div>
+              </form>
+            </section>
+
+            <aside class="inspector">
+              <h2>OpenAI 兼容接口</h2>
+              <pre><code>POST /v1/chat/completions
+Authorization: Bearer 平台密钥</code></pre>
+              <div class="metric-grid">
+                <div>
+                  <span>请求数</span>
+                  <strong id="requestCount">0</strong>
+                </div>
+                <div>
+                  <span>Token</span>
+                  <strong id="tokenCount">0</strong>
+                </div>
+                <div>
+                  <span>费用</span>
+                  <strong id="costCount">0</strong>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="modelsView" class="view">
+          <div class="section-head">
+            <h2>模型与 Key 管理</h2>
+            <p>配置供应商后会优先调用真实接口；未配置时自动返回本地模拟流式响应。</p>
+          </div>
+          <div id="providerCards" class="provider-grid"></div>
+        </section>
+
+        <section id="promptsView" class="view">
+          <div class="split-layout">
+            <form id="promptForm" class="editor-panel">
+              <h2>Prompt 模板</h2>
+              <input id="promptId" type="hidden" />
+              <label>名称</label>
+              <input id="promptTitle" placeholder="例如：客服助手" />
+              <label>内容</label>
+              <textarea id="promptContent" rows="10" placeholder="写入可复用的系统提示词"></textarea>
+              <button class="primary" type="submit">保存模板</button>
+            </form>
+            <div id="promptList" class="list-panel"></div>
+          </div>
+        </section>
+
+        <section id="billingView" class="view">
+          <div class="dashboard-grid">
+            <div class="stat-tile">
+              <span>总 Token</span>
+              <strong id="billTokens">0</strong>
+            </div>
+            <div class="stat-tile">
+              <span>剩余额度</span>
+              <strong id="billRemaining">0</strong>
+            </div>
+            <div class="stat-tile">
+              <span>累计费用</span>
+              <strong id="billCost">0</strong>
+            </div>
+          </div>
+          <div class="usage-panel">
+            <h2>供应商消耗</h2>
+            <div id="providerUsage"></div>
+          </div>
+        </section>
+
+        <section id="historyView" class="view">
+          <div class="section-head">
+            <h2>对话历史</h2>
+            <p>后端会保存最近会话和消息，可继续扩展为团队级审计与日志检索。</p>
+          </div>
+          <div id="historyList" class="history-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>登录 - 大模型聚合平台</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="login-page">
+    <main class="login-shell">
+      <section class="login-panel">
+        <div class="brand login-brand">
+          <div class="brand-mark">AI</div>
+          <div>
+            <strong>大模型聚合平台</strong>
+            <span>登录后进入控制台</span>
+          </div>
+        </div>
+
+        <form id="loginForm" class="login-form">
+          <label for="username">用户名</label>
+          <input id="username" name="username" autocomplete="username" value="demo" />
+
+          <label for="password">密码</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" value="demo123" />
+
+          <button class="primary" type="submit">登录</button>
+          <p id="loginStatus" class="muted">演示账号：demo / demo123</p>
+        </form>
+      </section>
+    </main>
+
+    <script src="/login.js"></script>
+  </body>
+</html>
